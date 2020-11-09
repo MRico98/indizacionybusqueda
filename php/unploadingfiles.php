@@ -18,6 +18,8 @@ if(isset($_POST['submit'])){
     $servicios = new Services();
     $servicios->setInvertIndexDb($hashing,$files);
     $servicios->closeConnection();
+    header("Location: ../pages/filesupload.html");
+    exit();
 }
 
 function getUnploadedFiles(){
