@@ -3,6 +3,7 @@ include 'fileunploaded.php';
 include 'invertindex.php';
 include 'wordstandardization.php';
 
+
 if(isset($_POST['submit'])){
     $files = getUnploadedFiles();
     $indiceinvertido = new InvertIndex();
@@ -11,6 +12,7 @@ if(isset($_POST['submit'])){
     for($i=0;$i<$numfiles;$i++){
         $indiceinvertido->extractWords($files[$i]->getNamefile(),$files[$i]->getContentfile());
     }
+    $indiceinvertido->orderAlphabetically();
     $hashing = $indiceinvertido->getHashingindex();
     for($i=0;$i<count($hashing);$i++){
         print_r($hashing[$i]);
