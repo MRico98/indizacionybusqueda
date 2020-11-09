@@ -15,9 +15,10 @@ if(isset($_POST['submit'])){
     $indiceinvertido->orderAlphabetically();
     $hashing = $indiceinvertido->getHashingindex();
     for($i=0;$i<count($hashing);$i++){
-        print_r($hashing[$i]);
-        echo "<br>";
+        //print_r($hashing[$i]);
+        //echo "<br>";
     }
+    $indiceinvertido->groupingByFreq();
 }
 
 function getUnploadedFiles(){

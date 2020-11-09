@@ -3,9 +3,11 @@ include 'bubblesort.php';
 
 class InvertIndex{
     private $hashingindex;
+    private $hashingfreq;
 
     function __construct(){
         $this->hashingindex = [];
+        $this->hashingfreq = [];
     }
 
     function extractWords($fileidentifier,$filecontent){
@@ -20,6 +22,16 @@ class InvertIndex{
     function orderAlphabetically(){
         $ordenamiento = new BubbleSort($this->hashingindex,count($this->hashingindex));
         $this->hashingindex = $ordenamiento->sortingMethod();
+    }
+
+    function groupingByFreq(){
+        for($i=0;$i<count($this->hashingindex);$i++){
+            $hashingfreq[$this->hashingindex[$i][0]][$this->hashingindex[$i][1]] = 0;
+        }
+        for($i=0;$i<count($this->hashingindex);$i++){
+            $hashingfreq[$this->hashingindex[$i][0]][$this->hashingindex[$i][1]] = $hashingfreq[$this->hashingindex[$i][0]][$this->hashingindex[$i][1]] + 1;
+        }
+        print_r($hashingfreq);
     }
 
     function getHashingindex(){
