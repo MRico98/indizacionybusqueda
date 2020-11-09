@@ -1,5 +1,5 @@
 <?php
-class databaseConnection {
+class DatabaseConnection {
     private $servername;
     private $username;
     private $password;
