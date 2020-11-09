@@ -2,7 +2,7 @@
 include 'fileunploaded.php';
 include 'invertindex.php';
 include 'wordstandardization.php';
-
+include "services.php";
 
 if(isset($_POST['submit'])){
     $files = getUnploadedFiles();
@@ -19,6 +19,8 @@ if(isset($_POST['submit'])){
         //echo "<br>";
     }
     $indiceinvertido->groupingByFreq();
+    echo "<br>";
+    $servicios = new Services();
 }
 
 function getUnploadedFiles(){

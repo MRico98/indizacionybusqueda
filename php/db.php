@@ -1,21 +1,17 @@
 <?php
 class DatabaseConnection {
-    private $servername;
-    private $username;
-    private $password;
-    private $database;
     private $connection;
 
     function __construct($servername,$username,$password,$database){
-        $connection = mysqli_connect($servername,$username,$password,$database);
+        $this->connection = mysqli_connect("localhost","root","Admin123","indiceinvertido");
     }
 
     function getConnection(){
-        return $connection;
+        return $this->connection;
     }
 
     function closeConnection(){
-        $connection->close();
+        $this->connection->close();
     }
 
 }
