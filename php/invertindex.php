@@ -26,16 +26,19 @@ class InvertIndex{
 
     function groupingByFreq(){
         for($i=0;$i<count($this->hashingindex);$i++){
-            $hashingfreq[$this->hashingindex[$i][0]][$this->hashingindex[$i][1]] = 0;
+            $this->hashingfreq[$this->hashingindex[$i][0]][$this->hashingindex[$i][1]] = 0;
         }
         for($i=0;$i<count($this->hashingindex);$i++){
-            $hashingfreq[$this->hashingindex[$i][0]][$this->hashingindex[$i][1]] = $hashingfreq[$this->hashingindex[$i][0]][$this->hashingindex[$i][1]] + 1;
+            $this->hashingfreq[$this->hashingindex[$i][0]][$this->hashingindex[$i][1]] = $this->hashingfreq[$this->hashingindex[$i][0]][$this->hashingindex[$i][1]] + 1;
         }
-        print_r($hashingfreq);
     }
 
     function getHashingindex(){
         return $this->hashingindex;
+    }
+
+    function getHashingfreq(){
+        return $this->hashingfreq;
     }
 }
 

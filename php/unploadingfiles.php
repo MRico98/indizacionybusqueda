@@ -13,14 +13,11 @@ if(isset($_POST['submit'])){
         $indiceinvertido->extractWords($files[$i]->getNamefile(),$files[$i]->getContentfile());
     }
     $indiceinvertido->orderAlphabetically();
-    $hashing = $indiceinvertido->getHashingindex();
-    for($i=0;$i<count($hashing);$i++){
-        //print_r($hashing[$i]);
-        //echo "<br>";
-    }
     $indiceinvertido->groupingByFreq();
-    echo "<br>";
+    $hashing = $indiceinvertido->getHashingfreq();
     $servicios = new Services();
+    $servicios->setInvertIndexDb($hashing,$files);
+    $servicios->closeConnection();
 }
 
 function getUnploadedFiles(){
