@@ -15,7 +15,7 @@ class DatabaseConnection {
     }
 
     function queryOperation($query){
-        $this->connection->query($query);
+        return $this->connection->query($query);
     }
 }
 ?>

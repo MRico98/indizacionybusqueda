@@ -9,20 +9,18 @@ class Services{
         $this->dbconnection = new DatabaseConnection($configuration["server"],$configuration["username"],$configuration["password"],$configuration["database"]);
     }
 
-    private function readDatabaseFile(){
-        $configuration = file_get_contents("../resource/dbconfig");
-        $configuration = explode(",",$configuration);
-        $connection = [];
-        for($i=0;$i<count($configuration);$i++){
-            $connection[explode(":",$configuration[$i])[0]] = explode(":",$configuration[$i])[1];
-        }
-        return $connection;
-    }
-
     public function setInvertIndexDb($invertindex,$files){
         $this->setWords(array_keys($invertindex));
         $this->setDocuments($files);
         $this->setInvertIndexTable($invertindex);
+    }
+
+    public function createSearchQuery($searchparameter){
+        return $this->dbconnection->queryOperation("SELECT indiceinvertido.indice,indiceinvertido.docid,documentos.resumen,indiceinvertido.count FROM diccionario INNER JOIN documentos INNER JOIN indiceinvertido ON indiceinvertido.indice = diccionario.indice AND documentos.docid = indiceinvertido.docid WHERE indiceinvertido.indice = '".$searchparameter."';");
+    }
+
+    public function closeConnection(){
+        $this->dbconnection->closeConnection();
     }
 
     private function setWords($words){
@@ -51,8 +49,15 @@ class Services{
         }
     }
 
-    public function closeConnection(){
-        $this->dbconnection->closeConnection();
+    private function readDatabaseFile(){
+        $configuration = file_get_contents("../resource/dbconfig");
+        $configuration = explode(",",$configuration);
+        $connection = [];
+        for($i=0;$i<count($configuration);$i++){
+            $connection[explode(":",$configuration[$i])[0]] = explode(":",$configuration[$i])[1];
+        }
+        return $connection;
     }
+
 }
 ?>
