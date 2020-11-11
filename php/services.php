@@ -15,6 +15,10 @@ class Services{
         $this->setInvertIndexTable($invertindex);
     }
 
+    public function createSearchQueryLike($searchparameter){
+        return $this->dbconnection->queryOperation("SELECT indiceinvertido.indice,indiceinvertido.docid,documentos.resumen,indiceinvertido.count FROM diccionario INNER JOIN documentos INNER JOIN indiceinvertido ON indiceinvertido.indice = diccionario.indice AND documentos.docid = indiceinvertido.docid WHERE indiceinvertido.indice LIKE '%".$searchparameter."%';");
+    }
+
     public function createSearchQuery($searchparameter){
         return $this->dbconnection->queryOperation("SELECT indiceinvertido.indice,indiceinvertido.docid,documentos.resumen,indiceinvertido.count FROM diccionario INNER JOIN documentos INNER JOIN indiceinvertido ON indiceinvertido.indice = diccionario.indice AND documentos.docid = indiceinvertido.docid WHERE indiceinvertido.indice = '".$searchparameter."';");
     }

@@ -8,6 +8,7 @@ class QueryForm{
     private $verbs;
     private $coincidencematrix;
     private $service;
+    private $subquery = [];
 
     function __construct($query){
         $this->service = new Services();
@@ -27,22 +28,32 @@ class QueryForm{
 
     public function getAllVerbsCoincidence(){
         $this->coincidencematrix = [];
+        $patrontrue = false;
         $auxmatrix = [];
         $numverbs = count($this->verbs);
         for($i=0;$i<$numverbs;$i++){
             if(substr($this->verbs[$i],0,6) === 'PATRON'){
-                continue;
+                $auxmatrix[$i] = $this->service->createSearchQueryLike(substr(substr($this->verbs[$i],7),0,-1));
+                $patrontrue = true;
             }
-            $auxmatrix[$i] = $this->service->createSearchQuery($this->verbs[$i]);
+            else{
+                $auxmatrix[$i] = $this->service->createSearchQuery($this->verbs[$i]);
+            }
             $this->coincidencematrix[$i] = new IndexItem($this->verbs[$i],$auxmatrix[$i]->num_rows,0,null);
             $docsid = [];
             $totalfreq = 0;
             $contador=0;
+            $aux = [];
             while($row = $auxmatrix[$i]->fetch_assoc()){
                 $totalfreq = $totalfreq + $row['count'];
                 $docitem = new Docs($row['docid'],$row['count'],$row['docid'],$row['resumen']);
                 $docsid[$contador] = $docitem;
+                $aux[$contador] = $row['indice'];
                 $contador++;
+            }
+            if($patrontrue){
+                $this->subquery = $this->unionArrays($this->subquery,$aux);
+                $patrontrue = false;
             }
             $this->coincidencematrix[$i]->setDocids($docsid);
             $this->coincidencematrix[$i]->setTotalfrecuen($totalfreq);
@@ -52,6 +63,8 @@ class QueryForm{
                 array_splice($this->coincidencematrix,$i,1);
             }
         }
+        $this->verbs = $this->unionArrays($this->verbs,$this->subquery);
+        print_r($this->verbs);
         return $this->coincidencematrix;
     }
 
@@ -103,5 +116,6 @@ class QueryForm{
         }
         return $filesmatrix;
     }
+
 }
 ?>
