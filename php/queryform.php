@@ -32,7 +32,7 @@ class QueryForm{
         $auxmatrix = [];
         $numverbs = count($this->verbs);
         for($i=0;$i<$numverbs;$i++){
-            if(substr($this->verbs[$i],0,6) === 'PATRON'){
+            if(substr($this->verbs[$i],0,6) === 'patron'){
                 $auxmatrix[$i] = $this->service->createSearchQueryLike(substr(substr($this->verbs[$i],7),0,-1));
                 $patrontrue = true;
             }
